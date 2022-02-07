@@ -1,5 +1,8 @@
-let canvas = document.getElementById('game');
+const canvas = document.querySelector('#game');
 let ctx = canvas.getContext('2d');
+const latestScore = document.querySelector('#latestScore');
+const highScore = document.querySelector('#highScore')
+const savedScore = JSON.parse(localStorage.getItem('scoreLocalStorage'));
 
 class SnakeBody{
   constructor(x, y) {
@@ -25,8 +28,14 @@ let yMomentum = 0;
 
 let score = 0;
 
+let scoreLocalstorage = {
+  lastRoundScore: 0,
+  highscore: 0,
+};
+
 //looping the game depending on the speed variable
 function updateGame() {
+  createLocalStorage();
 
   changeSnakePosition();
   let result = isGameOver();
@@ -40,7 +49,16 @@ function updateGame() {
   getFood();
   getSnake();
   getScore();
+
+  if (score > 3) {
+    speed = 10;
+  }
+  if (score > 7) {
+    speed = 16;
+  }
   setTimeout(updateGame, 1000 / speed);
+
+  displayScores();
 }
 
 function isGameOver() {
@@ -67,6 +85,8 @@ function isGameOver() {
     ctx.fillStyle = "white";
     ctx.font = "30px Arial"
     ctx.fillText("GAME OVER", canvas.width / 5, canvas.height / 2);
+    scoreLocalstorage.lastRoundScore = score;
+    localStorage.setItem('scoreLocalStorage', JSON.stringify(scoreLocalstorage));
   }
 
   return gameOver;
@@ -123,6 +143,17 @@ function checkFoodCollision() {
     score++;
 
   }
+}
+
+const createLocalStorage = () => {
+  if (savedScore === null) {
+    localStorage.setItem('scoreLocalStorage', JSON.stringify(scoreLocalstorage));
+    document.location.reload();
+  }
+}
+
+const displayScores = () => {
+  latestScore.textContent = `Latest Score: ${savedScore.lastRoundScore}`;
 }
 
 document.body.addEventListener('keydown', keyDown);
