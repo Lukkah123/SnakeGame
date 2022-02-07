@@ -27,13 +27,49 @@ let score = 0;
 
 //looping the game depending on the speed variable
 function updateGame() {
-  clearScreen();
+
   changeSnakePosition();
+  let result = isGameOver();
+  if (result) {
+    return;
+  } 
+
+  clearScreen();
+  
   checkFoodCollision();
   getFood();
   getSnake();
   getScore();
   setTimeout(updateGame, 1000 / speed);
+}
+
+function isGameOver() {
+  let gameOver = false;
+
+  if (yMomentum === 0 && xMomentum === 0) {
+    return false;
+  }
+
+  //if the head hits the walls
+  if(headX < 0 || headX === tileCount || headY < 0 || headY === tileCount) {
+    gameOver = true;
+  }
+
+  for (let i = 0; i < snakeBodyParts.length; i++){
+    let part = snakeBodyParts[i];
+    if (part.x === headX && part.y === headY) {
+      gameOver = true;
+      break;
+    }
+  }
+
+  if (gameOver) {
+    ctx.fillStyle = "white";
+    ctx.font = "30px Arial"
+    ctx.fillText("GAME OVER", canvas.width / 5, canvas.height / 2);
+  }
+
+  return gameOver;
 }
 
 function getScore() {
@@ -84,6 +120,7 @@ function checkFoodCollision() {
     foodY = Math.floor(Math.random() * tileCount);
     //increment the tail
     tailLength++;
+    score++;
 
   }
 }
