@@ -1,7 +1,7 @@
-const canvas = document.querySelector('#game');
+const canvas = document.querySelector('.game');
 let ctx = canvas.getContext('2d');
-const latestScore = document.querySelector('#latestScore');
-const highScore = document.querySelector('#highScore')
+const latestScore = document.querySelector('.latestScore');
+const highScore = document.querySelector('.highScore')
 const savedScore = JSON.parse(localStorage.getItem('scoreLocalStorage'));
 
 class SnakeBody{
@@ -30,7 +30,7 @@ let score = 0;
 
 let scoreLocalstorage = {
   lastRoundScore: 0,
-  highscore: 0,
+  highScore: 0,
 };
 
 //looping the game depending on the speed variable
@@ -38,7 +38,8 @@ function updateGame() {
   createLocalStorage();
 
   changeSnakePosition();
-  let result = isGameOver();
+ 
+   let result = isGameOver();
   if (result) {
     return;
   } 
@@ -57,6 +58,7 @@ function updateGame() {
     speed = 16;
   }
   setTimeout(updateGame, 1000 / speed);
+  
 
   displayScores();
 }
@@ -86,7 +88,13 @@ function isGameOver() {
     ctx.font = "30px Arial"
     ctx.fillText("GAME OVER", canvas.width / 5, canvas.height / 2);
     scoreLocalstorage.lastRoundScore = score;
+    scoreLocalstorage.highScore = savedScore.highScore;
+    if (scoreLocalstorage.lastRoundScore > scoreLocalstorage.highScore) {
+      scoreLocalstorage.highScore = scoreLocalstorage.lastRoundScore;
+      localStorage.setItem('scoreLocalStorage', JSON.stringify(scoreLocalstorage));
+    }
     localStorage.setItem('scoreLocalStorage', JSON.stringify(scoreLocalstorage));
+    document.location.reload();
   }
 
   return gameOver;
@@ -154,6 +162,7 @@ const createLocalStorage = () => {
 
 const displayScores = () => {
   latestScore.textContent = `Latest Score: ${savedScore.lastRoundScore}`;
+  highScore.textContent = `Highscore: ${savedScore.highScore}`;
 }
 
 document.body.addEventListener('keydown', keyDown);

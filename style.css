@@ -10,3 +10,14 @@ main {
 canvas {
   box-shadow: blue 20px 10px 50px;
 }
+
+.latestScore {
+  padding-top: 5%;
+  color: blue;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.highScore {
+  color: blue;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
