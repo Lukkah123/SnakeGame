@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Press+Start+2P&family=Source+Sans+Pro:wght@700&display=swap");
+
+body {
+  font-family: "Press Start 2P", cursive;
+}
+
 main {
   margin: 0px;
   padding: 0px;
@@ -14,10 +20,8 @@ canvas {
 .latestScore {
   padding-top: 5%;
   color: blue;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 .highScore {
   color: blue;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
